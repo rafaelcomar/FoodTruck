@@ -13,9 +13,12 @@ import java.util.ArrayList;
  */
 public class Pedido {
     
-    int código;
-    Cliente cliente;
-    ArrayList<Produto> produtos;
-    double total;
+    public int código;
+    public Cliente cliente;
+    public ArrayList<Produto> produtos;
+    public double total;
+    public String status;
+    
+    
     
 }

@@ -13,5 +13,6 @@ public class Produto {
     public int codigo;
     public double valor;
     public String descricaoProduto;
+    public int quantidade;
     
 }
