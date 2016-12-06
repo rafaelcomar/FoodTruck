@@ -7,7 +7,7 @@ package controller;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 public class Produto {
     public int codigo;

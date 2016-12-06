@@ -25,7 +25,7 @@ import model.ProdutoDAO;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 public class viewPrincipal extends javax.swing.JFrame {
 

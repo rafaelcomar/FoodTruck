@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 public class CozinhaDAO {
     

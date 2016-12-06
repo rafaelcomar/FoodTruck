@@ -18,7 +18,7 @@ import static model.ClienteDAO.listaClientes;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 public class PedidoDAO {
     

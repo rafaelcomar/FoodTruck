@@ -13,7 +13,7 @@ import java.util.Random;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 public class ProdutoDAO {
 

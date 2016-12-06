@@ -16,7 +16,7 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  *
- * @author rafael.comar
+ * @author andre.facchin
  */
 //public class TableModal {
 //    
