@@ -8,6 +8,9 @@ package model;
 import controller.Cliente;
 import controller.Pedido;
 import controller.Produto;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import static model.ClienteDAO.listaClientes;
 
 
 
@@ -21,10 +24,35 @@ public class PedidoDAO {
     public Produto prod;
     public Cliente cli;
     public int quantidade;
+    public ArrayList<Pedido> pedidos = new ArrayList<>();
     
     
+    public void adicionarPedido(Pedido ped){
+        if (ped != null) {
+            pedidos.add(ped);
+        }
+    }
     
+    public void atualizarPedido(Pedido pedido) {
+        pedidos.remove(pedido);
+        pedidos.add(pedido);
+    }
     
-    
-    
+    public ArrayList<String[]> getListArrays() {
+        ArrayList<String[]> listaObjetos = new ArrayList<>();
+        SimpleDateFormat dtformate = new SimpleDateFormat("HH:mm:ss");
+        
+        if (pedidos.size() > 0) {
+            for (Pedido pedido : pedidos) {
+                String[] obj = {String.valueOf(pedido.codigo), pedido.cliente.nome , pedido.pedidoDescricao, String.valueOf(pedido.total) , String.valueOf(dtformate.format(pedido.data)) , pedido.status};
+                listaObjetos.add(obj);
+            }
+        }
+        
+        
+        return listaObjetos;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+        
 }

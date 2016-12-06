@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -13,11 +14,20 @@ import java.util.ArrayList;
  */
 public class Pedido {
     
-    public int código;
+    public int codigo;
     public Cliente cliente;
-    public ArrayList<Produto> produtos;
+    public ArrayList<Produto> produtos = new ArrayList<>();
+    public Date data;
     public double total;
     public String status;
+    public String pedidoDescricao = "";
+    
+    public Pedido(){
+        
+    }
+    public Pedido(int i){
+        this.codigo = i;
+    }
     
     
     

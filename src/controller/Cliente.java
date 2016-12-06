@@ -5,6 +5,8 @@
  */
 package controller;
 
+import java.util.Random;
+
 /**
  *
  * @author rafael.comar
@@ -14,5 +16,7 @@ public class Cliente {
     public int codigo;
     public String nome;
     
-    
+    public Cliente(){
+        
+    }
 }

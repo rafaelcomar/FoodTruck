@@ -573,7 +573,7 @@
                               <Editor/>
                               <Renderer/>
                             </Column>
-                            <Column maxWidth="50" minWidth="50" prefWidth="50" resizable="true">
+                            <Column maxWidth="65" minWidth="65" prefWidth="65" resizable="true">
                               <Title/>
                               <Editor/>
                               <Renderer/>
@@ -733,6 +733,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Salvar Pedido"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarPedidoActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

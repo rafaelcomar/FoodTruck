@@ -6,8 +6,13 @@
 package view;
 
 import controller.Cliente;
+import controller.Pedido;
 import controller.Produto;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.RandomAccess;
 import javax.swing.DefaultListModel;
@@ -16,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.ClienteDAO;
+import model.PedidoDAO;
 import model.ProdutoDAO;
 
 /**
@@ -24,6 +30,9 @@ import model.ProdutoDAO;
  */
 public class viewPrincipal extends javax.swing.JFrame {
 
+    Pedido pedido;
+    PedidoDAO pedidoDAO = new PedidoDAO();
+    
     /**
      * Creates new form viewPrincipal
      */
@@ -281,9 +290,9 @@ public class viewPrincipal extends javax.swing.JFrame {
             tbPedidos.getColumnModel().getColumn(2).setMinWidth(200);
             tbPedidos.getColumnModel().getColumn(2).setPreferredWidth(200);
             tbPedidos.getColumnModel().getColumn(2).setMaxWidth(200);
-            tbPedidos.getColumnModel().getColumn(3).setMinWidth(50);
-            tbPedidos.getColumnModel().getColumn(3).setPreferredWidth(50);
-            tbPedidos.getColumnModel().getColumn(3).setMaxWidth(50);
+            tbPedidos.getColumnModel().getColumn(3).setMinWidth(65);
+            tbPedidos.getColumnModel().getColumn(3).setPreferredWidth(65);
+            tbPedidos.getColumnModel().getColumn(3).setMaxWidth(65);
             tbPedidos.getColumnModel().getColumn(4).setMinWidth(60);
             tbPedidos.getColumnModel().getColumn(4).setPreferredWidth(60);
             tbPedidos.getColumnModel().getColumn(4).setMaxWidth(60);
@@ -327,6 +336,11 @@ public class viewPrincipal extends javax.swing.JFrame {
         comboProdutos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnSalvarPedido.setText("Salvar Pedido");
+        btnSalvarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarPedidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelIncluirProdutoLayout = new javax.swing.GroupLayout(panelIncluirProduto);
         panelIncluirProduto.setLayout(panelIncluirProdutoLayout);
@@ -656,20 +670,62 @@ public class viewPrincipal extends javax.swing.JFrame {
             String clienteSelecionado = (String) comboClientes.getSelectedItem();
             btnFazerPedido.setEnabled(false);
             panelIncluirProduto.setVisible(true);
+            pedido = new Pedido(pedidoDAO.pedidos.size()+1);
+            ClienteDAO clienteDAO = new ClienteDAO();
+            pedido.cliente = clienteDAO.pesquisarCliente(0, clienteSelecionado);
+            
+
         }else{
             JOptionPane.showMessageDialog(null, "Selecione um cliente para fazer o pedido");
         }
         
+        
     }//GEN-LAST:event_btnFazerPedidoActionPerformed
 
     private void btnIncluirProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirProdutoActionPerformed
-        if (Integer.parseInt(qtdProdutosPedido.getValue().toString()) != 0) {
+        if (Integer.parseInt(qtdProdutosPedido.getValue().toString()) > 0) {
 //            JOptionPane.showMessageDialog(null, qtdProdutosPedido.getValue().toString());
+            int qtdProduto = Integer.parseInt(qtdProdutosPedido.getValue().toString());
+            String produtoNome= comboProdutos.getSelectedItem().toString();
+            
+            ProdutoDAO prodDao = new ProdutoDAO();
+            Produto prod = prodDao.pesquisarProduto(0, produtoNome);
+            prod.quantidade = qtdProduto;
+            
+            pedido.produtos.add(prod);
+            
+            pedido.data = Date.from(Instant.now());
+            pedido.status = "montando";
+            
+            double valorTotal = 0;
+            valorTotal += prod.valor * prod.quantidade ;
+            DecimalFormat df = new DecimalFormat("#.##");
+            df.setRoundingMode(RoundingMode.UP);
+            pedido.total = df.format(valorTotal);
+            
+            if (pedido.pedidoDescricao == "") {
+                pedido.pedidoDescricao =  produtoNome + "(" + qtdProduto + ")";
+                pedidoDAO.adicionarPedido(pedido);
+            }else{
+                pedido.pedidoDescricao += " , " + produtoNome + "(" + qtdProduto + ")" ;
+                pedidoDAO.atualizarPedido(pedido);
+            }
+            
+            
+            
+            atualizarTable(tbPedidos, pedidoDAO.getListArrays());
             
         }else{
              JOptionPane.showMessageDialog(null, "A quantidade não pode ser zero.");
         }
     }//GEN-LAST:event_btnIncluirProdutoActionPerformed
+
+    private void btnSalvarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarPedidoActionPerformed
+        panelIncluirProduto.setVisible(false);
+        btnFazerPedido.setEnabled(true);
+//        pedido = new Pedido(pedidoDAO.pedidos.size()+1);
+        pedido = null;
+    }//GEN-LAST:event_btnSalvarPedidoActionPerformed
     
     public void removerTudo(JTable tab ){
         DefaultTableModel model = (DefaultTableModel) tab.getModel();
